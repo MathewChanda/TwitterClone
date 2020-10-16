@@ -12,8 +12,13 @@ import AlamofireImage
 class HomeTableViewController: UITableViewController {
     
     var tweetArray = [NSDictionary]()
+    @IBOutlet var tweetTable: UITableView!
     var numberOfTweet : Int!
 
+    
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -23,6 +28,13 @@ class HomeTableViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
         loadTweet()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.loadTweet()
+        self.tweetTable.rowHeight = UITableView.automaticDimension
+        self.tweetTable.estimatedRowHeight = 150;
     }
     
     
@@ -55,6 +67,7 @@ class HomeTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
+        print(tweetArray.count)
         return tweetArray.count
     }
     @IBAction func onLogout(_ sender: Any) {
@@ -81,8 +94,17 @@ class HomeTableViewController: UITableViewController {
             cell.profileImageView.image = UIImage(data: imageData)
         }
         
+        cell.setFavorited(tweetArray[indexPath.row]["favorited"] as! Bool)
+        cell.tweetID = tweetArray[indexPath.row]["id"] as! Int
+        cell.setRetweeted(tweetArray[indexPath.row]["retweeted"] as! Bool)
+        
+        
         return cell
     }
+    
+
+    
+    
    
     
     /*
